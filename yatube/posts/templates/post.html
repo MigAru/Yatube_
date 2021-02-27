@@ -1,0 +1,17 @@
+{% extends "base.html" %} 
+{% block title %}Запись {{ profile.username }}{% endblock %} 
+{% block header %}Запись {{ profile.username }}{% endblock %} 
+{% block content %} 
+<br>  
+<main role="main" class="container">  
+    {% include 'includes/profile_card.html' %} 
+        <div class="card col-md-9">  
+            <div class="align-self-stretch"> 
+                <br> 
+                <!-- Вот он, новый include! --> 
+                  {% include "includes/post_item.html" with post=post_list %} 
+                  {% include 'includes/comments.html' with post=post_list %} 
+            </div>     
+        </div>  
+</main> 
+{% endblock %} 

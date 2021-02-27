@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Профиль {{ profile.username }}{% endblock %}
+{% block header %}Профиль{% endblock %}
+{% block content %} 
+<br> 
+<main role="main" class="container">
+    {% include 'includes/profile_card.html' %} 
+        <div class="card col-md-9">
+            <div class="align-self-stretch">
+                <br>
+                {% for post in page %}
+                  <!-- Вот он, новый include! -->
+                    {% include "includes/post_item.html" with post=post %}
+                {% endfor %}
+                {% if page.has_other_pages %}
+                    {% include "includes/paginator.html" with items=page paginator=paginator%}
+                {% endif %}
+            </div> 
+        </div> 
+</main>
+{% endblock %}
