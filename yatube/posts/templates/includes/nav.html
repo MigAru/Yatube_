@@ -1,11 +1,23 @@
 <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
     <a class="navbar-brand" href="/"><span style="color:rgba(0, 86, 184, 0.849)">Ya</span>tube</a>
+    
     <nav class="my-2 my-md-0 mr-md-3">
         {% if user.is_authenticated %}
-        <a class="p-2 text-primary" href="/{{ user.username }}/">@{{ user.username }}</a>
-        <a class="p-2 text-primary" href="{% url 'new_post' %}">Добавить запись</a>
-        <a class="p-2 text-primary" href="{% url 'password_change' %}">Изменить пароль</a>
-        <a class="p-2 text-danger" href="{% url 'logout' %}">Выйти</a>
+            <div class="dropdown">
+                <a class="p-2 text-primary" href="/{{ user.username }}/">@{{ user.username }}</a>
+                <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-expanded="false">
+                    Меню
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a class="p-2 text-primary" href="{% url 'new_post' %}">Добавить запись</a></li>
+                <li><a class="p-2 text-primary" href="{% url 'new_group' %}">Создать группу</a></li>
+                <li><a class="p-2 text-primary" href="{% url 'following' user.username %}">Подписчики</a></li>
+                <li><a class="p-2 text-primary" href="{% url 'followers' user.username %}">Подписки</a></li>
+                <hr>
+                <li><a class="p-2 text-primary" href="{% url 'password_change' %}">Изменить пароль</a></li>
+                <li><a class="p-2 text-danger" href="{% url 'logout' %}">Выйти</a></li>
+            </ul>
+        </div>
         {% else %}
         <a class="p-2 text-dark" href="{% url 'login' %}">Войти</a> |
         <a class="p-2 text-dark" href="{% url 'signup' %}">Регистрация</a>

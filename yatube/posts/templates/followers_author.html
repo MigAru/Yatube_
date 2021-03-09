@@ -1,0 +1,24 @@
+{% extends "base.html" %} 
+{% block title %} Последние обновления {% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% include 'includes/profile_card.html' %}
+           <br>
+            <!-- Вывод ленты записей -->
+            <div class="card col-md-6">
+                <h1>Подписчики:</h1>
+                {% for follow in following %}
+                <p> 
+                    <!-- Ссылка на автора через @ --> 
+                    <a href="{% url 'profile' follow.user.username %}"> 
+                    <strong class="d-block text-gray-dark">@{{ follow.author.username }}</strong> 
+                    </a> 
+                    {{ follow.author.get_full_name }} 
+                </p>
+                <hr>
+                {% endfor %}
+            </div>  
+    </div>
+
+{% endblock %}

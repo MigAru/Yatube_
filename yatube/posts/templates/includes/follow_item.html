@@ -1,0 +1,8 @@
+            <p> 
+                <!-- Ссылка на автора через @ --> 
+                <a href="{% url 'profile' follow.user.username %}"> 
+                <strong class="d-block text-gray-dark">@{{ follow.user.username }}</strong> 
+                </a> 
+                {{ follow.user.get_full_name }} 
+            </p>
+            <hr>

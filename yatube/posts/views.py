@@ -4,7 +4,7 @@ from django.shortcuts import (get_list_or_404, get_object_or_404, redirect,
                               render) 
 from django.views.decorators.cache import cache_page 
  
-from .forms import CommentForm, PostForm 
+from .forms import CommentForm, PostForm, GroupForm
 from .models import Follow, Group, Post, User 
  
  
@@ -57,6 +57,23 @@ def new_post(request):
     } 
     return render(request, "form.html", context) 
  
+def new_group(request):
+    form = GroupForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        form.save() 
+        return redirect('index')
+    form = GroupForm() 
+    button = 'Создать новую группу' 
+    title = 'Новая группа' 
+    header = 'Создание новой группы' 
+    context = { 
+        'form': form, 
+        'button': button, 
+        'title': title, 
+        'header': header 
+    }
+    return render(request, "form.html", context)
+
  
 def profile(request, username): 
     profile = get_object_or_404(User, username=username) 
@@ -79,14 +96,15 @@ def profile(request, username):
         'paginator': paginator, 
         'following': following, 
     } 
-    return render(request, 'profile.html', context) 
- 
- 
+    return render(request, 'profile.html', context)
+
+
 def post_view(request, username, post_id): 
     post_list = get_object_or_404(Post, pk=post_id, author__username=username) 
-    profile = post_list.author 
+    profile = post_list.author
+
     form = CommentForm() 
-    comments = post_list.comments.all() 
+    comment_list = post_list.comments.all() 
     following = False 
     if request.user.is_authenticated: 
         following = Follow.objects.filter( 
@@ -97,7 +115,7 @@ def post_view(request, username, post_id):
         'post_list': post_list, 
         'profile': profile, 
         'form': form, 
-        'comments': comments, 
+        'comment_list': comment_list, 
         'following': following, 
     } 
     return render(request, 'post.html', context) 
@@ -128,8 +146,16 @@ def post_edit(request, username, post_id):
         'header': header 
     } 
     return render(request, 'form.html', context) 
- 
- 
+
+@login_required
+def post_delete(request, username, post_id):
+    post = get_object_or_404(Post, pk=post_id, author__username=username)
+    if request.user != post.author:
+        return redirect('index')
+    post.delete()
+    return redirect('index')
+
+
 @login_required 
 def add_comment(request, username, post_id): 
     post = get_object_or_404(Post, pk=post_id, author__username=username) 
@@ -152,8 +178,34 @@ def follow_index(request):
         'paginator': paginator, 
         'page': page 
     } 
-    return render(request, "follow.html", context) 
- 
+    return render(request, "follow.html", context)
+
+@login_required
+def following_author(request, username):
+    profile = get_object_or_404(User, username=username)
+    following = Follow.objects.filter(  
+        author=profile.id
+    )
+    context = {
+        'following': following,
+        'profile': profile
+    }
+    return render(request, 'following_author.html', context)
+
+
+@login_required
+def follower_author(request, username):
+    profile = get_object_or_404(User, username=username)
+    following = Follow.objects.filter(  
+        user=profile.id
+    )
+    context = {
+        'following': following,
+        'profile': profile
+    }
+    return render(request, 'followers_author.html', context)
+
+    
  
 @login_required 
 def profile_follow(request, username): 

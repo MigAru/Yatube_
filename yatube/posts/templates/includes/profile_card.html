@@ -12,8 +12,8 @@
         <ul class="list-group list-group-flush">  
             <li class="list-group-item">  
                 <div class="h6 text-muted">  
-                    Подписчиков: {{ profile.following.count }} <br>  
-                    Подписан: {{ profile.follower.count }} 
+                    <a  href="{% url 'following' profile.username %}">Подписчиков:</a> {{ profile.following.count }} <br>  
+                    <a  href="{% url 'followers' profile.username %}">Подписан:</a> {{ profile.follower.count }} <br> 
                 </div>  
             </li>  
             <li class="list-group-item">  

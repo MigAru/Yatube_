@@ -1,19 +1,20 @@
-{% extends "base.html" %}
-{% block title %} Мои подписки {% endblock %}
+{% extends "base.html" %} 
+{% block title %} Последние обновления {% endblock %}
+
 {% block content %}
-    
-<main role="main" class="container">
-    
+    <div class="container">
+        {% include "includes/menu.html" with index=True %}
+           <h1> Последние обновления у выбранных авторов </h1>
+            <!-- Вывод ленты записей -->
+                {% for post in page %}
+                  <!-- Вот он, новый include! -->
+                    {% include "includes/post_item.html" with post=post %}
+                {% endfor %}
+    </div>
 
-
-        {% for post in post_list %}
-            {% include 'includes/post_item.html' %}
-        {% endfor %}
-
+        <!-- Вывод паджинатора -->
         {% if page.has_other_pages %}
-            {% include "paginator.html" with items=page paginator=paginator%}
+            {% include "includes/paginator.html" with items=page paginator=paginator%}
         {% endif %}
 
-    </div>
-</main>
 {% endblock %}
