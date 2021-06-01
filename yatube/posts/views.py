@@ -8,7 +8,7 @@ from .forms import CommentForm, PostForm, GroupForm
 from .models import Follow, Group, Post, User 
  
  
-@cache_page(1 * 8) 
+@cache_page(1 * 2) 
 def index(request): 
     post_list = get_list_or_404(Post) 
     paginator = Paginator(post_list, 10) 
@@ -20,7 +20,7 @@ def index(request):
     }) 
  
  
-@cache_page(1 * 8) 
+@cache_page(1 * 2) 
 def group_posts(request, slug): 
     group = get_object_or_404(Group, slug=slug) 
     post_list = group.posts.all() 
