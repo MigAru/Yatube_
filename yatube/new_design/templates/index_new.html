@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>профиль</title>
+    <meta>
+    <link rel="stylesheet" href="style/chattt.css" type="text/css">
+    <script src="https://use.fontawesome.com/8c1a2e1dd2.js"></script>
+</head>
+
+<body>
+
+    {% include "header.html" %}   
+    {% include "nav.html" %}    
+
+
+    <div class="chat">
+
+        <div class="chat__search">
+            <div class="search__icon__chat">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </div>
+            <input class="chat__input" type="text" placeholder="Поиск">
+        </div> 
+
+        <a class="message" href="message.php">
+            <div class="chat__photo">
+                <i class="fa fa-camera" aria-hidden="true"></i>
+            </div>
+            <div class="chat__name">kastizz</div>
+            <div class="last__message">пока</div>
+            <div class="last__status">19:12</div>
+        </a>
+
+    </div> 
+
+</body>
+
+</html>
